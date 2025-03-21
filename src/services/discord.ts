@@ -12,11 +12,10 @@ export async function sendApplicationWebhook(
   const user = await getUser(userId).then(mapUser);
 
   const embed: DiscordEmbed = {
-    title: `${isMinor ? "! MINOR ! " : ""}New E-Kitten Application from ${
-      data.name
-    }`,
+    title: `${isMinor ? "! MINOR ! " : ""}New E-Kitten Application from ${data.name
+      }`,
     description: `
-      Actions: [Ban User](https://${process.env.VERCEL_URL}/api/ban?userId=${user.id}) | [Unban User](https://${process.env.VERCEL_URL}/api/unban?userId=${user.id})
+      Actions: [Ban User](https://huzz.fabra.me/api/ban?userId=${user.id}) | [Unban User](https://huzz.fabra.me/api/unban?userId=${user.id})
     `,
     thumbnail: {
       url: user.image,
