@@ -48,7 +48,14 @@ export async function POST(req: Request) {
 		await sendApplicationWebhook(data, "user_2ubqYRvkI8qDLHYtRy7DoQJ7Pyq");
 		return Response.json({ success: true });
 	} catch (error) {
-		console.error("Failed to send webhook:", error);
+		if (error && typeof error === "object" && "clerkError" in error && error.clerkError === true) {
+			console.error("Clerk Error:", error, error.toString());
+			if ("errors" in error && Array.isArray(error.errors)) {
+				console.error("Clerk Errors", ...error.errors);
+			}
+		} else {
+			console.error("Failed to send webhook:", error);
+		}
 
 		await redis.del(cooldownKey);
 		return Response.json({ error: "WEBHOOK_ERROR" }, { status: 500 });
