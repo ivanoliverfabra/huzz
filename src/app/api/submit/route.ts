@@ -20,7 +20,7 @@ export async function POST(req: Request) {
 	if (age < MIN_AGE) {
 		const [banSuccess] = await tryCatch(() => banUser(user));
 		await tryCatch(() =>
-			sendApplicationWebhook(data, "user_2ubqYRvkI8qDLHYtRy7DoQJ7Pyq", true),
+			sendApplicationWebhook(data, user.id, true),
 		);
 		if (!banSuccess)
 			return Response.json({ error: "BAN_ERROR" }, { status: 400 });
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 	}
 
 	try {
-		await sendApplicationWebhook(data, "user_2ubqYRvkI8qDLHYtRy7DoQJ7Pyq");
+		await sendApplicationWebhook(data, user.id);
 		return Response.json({ success: true });
 	} catch (error) {
 		if (error && typeof error === "object" && "clerkError" in error && error.clerkError === true) {
