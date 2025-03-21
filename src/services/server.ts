@@ -1,11 +1,7 @@
 import type { MappedUser } from "@/types";
-import { type User, auth, clerkClient } from "@clerk/nextjs/server";
+import { type User, auth, clerkClient, currentUser } from "@clerk/nextjs/server";
 
-export async function isAdmin(userOrUserId: User | string) {
-	const user =
-		typeof userOrUserId === "string"
-			? await getUser(userOrUserId)
-			: userOrUserId;
+export function isAdmin(user: User) {
 	if (
 		user &&
 		"role" in user.publicMetadata &&
@@ -21,20 +17,20 @@ export async function authenticateUser(): Promise<string> {
 	return userId;
 }
 
-export async function authenticateAdmin(): Promise<string> {
-	const { userId } = await auth();
-	if (!userId) throw new Error("UNAUTHENTICATED");
-	const isAdministrator = await isAdmin(userId);
+export async function authenticateAdmin(): Promise<User> {
+	const user = await currentUser();
+	if (!user) throw new Error("UNAUTHENTICATED");
+	const isAdministrator = await isAdmin(user);
 	if (!isAdministrator) throw new Error("NO_PERMISSION");
-	return userId;
+	return user;
 }
 
 export async function getUser(userId: string): Promise<User> {
 	return (await clerkClient()).users.getUser(userId);
 }
 
-export async function banUser(userId: string) {
-	return (await clerkClient()).users.banUser(userId);
+export async function banUser(user: User) {
+	return (await clerkClient()).users.banUser(user.id);
 }
 
 export function mapUser(user: User): MappedUser {
@@ -43,9 +39,9 @@ export function mapUser(user: User): MappedUser {
 	);
 	const mappedUserDiscord = userDiscord
 		? {
-				id: userDiscord.externalId,
-				username: userDiscord.username,
-			}
+			id: userDiscord.externalId,
+			username: userDiscord.username,
+		}
 		: null;
 
 	return {

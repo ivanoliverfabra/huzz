@@ -1,23 +1,24 @@
 import { parseNum, tryCatch, tryCatchSync } from "@/lib/utils";
 import { sendApplicationWebhook } from "@/services/discord";
-import { authenticateUser, banUser, isAdmin } from "@/services/server";
+import { banUser, isAdmin } from "@/services/server";
 import type { Values } from "@/types";
+import { currentUser } from "@clerk/nextjs/server";
 import { Redis } from "@upstash/redis";
 
 const redis = Redis.fromEnv();
 const MIN_AGE = 18;
 
 export async function POST(req: Request) {
-	const [success, userId] = await tryCatch(authenticateUser);
-	if (!success)
-		return Response.json({ error: userId.message }, { status: 400 });
+	const [success, user] = await tryCatch(currentUser);
+	if (!success || !user)
+		return Response.json({ error: user instanceof Error ? user.message : "UNAUTHENTICATED" }, { status: 400 });
 
 	const data = (await req.json()) as Values;
 	const [isNumber, age] = tryCatchSync(() => parseNum(data.age));
 	if (!isNumber)
 		return Response.json({ error: age.message, param: "age" }, { status: 400 });
 	if (age < MIN_AGE) {
-		const [banSuccess] = await tryCatch(() => banUser(userId));
+		const [banSuccess] = await tryCatch(() => banUser(user));
 		await tryCatch(() =>
 			sendApplicationWebhook(data, "user_2ubqYRvkI8qDLHYtRy7DoQJ7Pyq", true),
 		);
@@ -29,10 +30,8 @@ export async function POST(req: Request) {
 		);
 	}
 
-	const cooldownKey = `submit_cooldown:${userId}`;
-	const isAdministrator = await isAdmin(userId);
-
-	if (!isAdministrator) {
+	const cooldownKey = `submit_cooldown:${user}`;
+	if (!isAdmin(user)) {
 		const lastSubmission = await redis.get<string>(cooldownKey);
 
 		if (lastSubmission) {
@@ -52,7 +51,6 @@ export async function POST(req: Request) {
 		console.error("Failed to send webhook:", error);
 
 		await redis.del(cooldownKey);
-
 		return Response.json({ error: "WEBHOOK_ERROR" }, { status: 500 });
 	}
 }
