@@ -191,7 +191,7 @@ export function ApplicationForm() {
           </CardTitle>
           <CardDescription>
             Thank you for taking the first step towards becoming an E-Kitten, {values.name}!
-            We're excited to review your application.
+            We&apos;re excited to review your application.
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -207,7 +207,7 @@ export function ApplicationForm() {
             </ul>
           </div>
           <p className="text-muted-foreground italic text-sm">
-            We'll carefully review your application and get back to you soon. Keep an eye on your notifications! 💖
+            We&apos;ll carefully review your application and get back to you soon. Keep an eye on your notifications! 💖
           </p>
         </CardContent>
       </Card>
