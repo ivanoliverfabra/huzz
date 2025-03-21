@@ -33,7 +33,7 @@ const pages = [
   },
   {
     id: 2,
-    title: "Your Valorant",
+    title: "Your Valorant Info",
     subtitle:
       '"Cuál es tu nombre" - Worker @ Mexican Restaurant \n "215..." - Lil Gato',
     Component: PageTwo,
