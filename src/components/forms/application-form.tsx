@@ -47,7 +47,7 @@ const pages = [
   {
     id: 4,
     title: "Gaming & Dating Preferences",
-    subtitle: '"everyone > cheesecake" - Lil Gato',
+    subtitle: 'please submit.. he\'s so lonely.',
     Component: PageFour,
   },
 ];
