@@ -1,6 +1,6 @@
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -31,14 +31,15 @@ export const metadata: Metadata = {
 		title: "Huzz Finder",
 		description: "Huzz Finder is a place to signup to be a e-kitten.",
 	},
-	viewport: {
-		width: "device-width",
-		initialScale: 1,
-	},
 	icons: {
 		icon: "/favicon.ico",
 	},
 };
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
+}
 
 export default function RootLayout({
 	children,
