@@ -16,7 +16,7 @@ export async function sendApplicationWebhook(
       data.name
     }`,
     description: `
-      Actions: [Ban User](${process.env.VERCEL_URL}/api/ban?userId=${user.id}) | [Unban User](${process.env.VERCEL_URL}/api/unban?userId=${user.id})
+      Actions: [Ban User](https://${process.env.VERCEL_URL}/api/ban?userId=${user.id}) | [Unban User](https://${process.env.VERCEL_URL}/api/unban?userId=${user.id})
     `,
     thumbnail: {
       url: user.image,
