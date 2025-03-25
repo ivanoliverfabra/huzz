@@ -22,13 +22,13 @@ import { PageTwo } from "./pages/page-two";
 const pages = [
   {
     id: 0,
-    title: "Welcome to Lil Gato's E-Kitten Application!",
+    title: "Welcome to the E-Kitten Application!",
     Component: Introduction,
   },
   {
     id: 1,
     title: "Introductions",
-    subtitle: '"Where the huzz attttttt?" - Lil Gato',
+    subtitle: 'Where the huzz attttttt?',
     Component: PageOne,
   },
   {
@@ -41,7 +41,7 @@ const pages = [
   {
     id: 3,
     title: "Your Interests",
-    subtitle: '"I want to be an E-Kitten" - Lil Gato',
+    subtitle: '"I want to be an E-Kitten" - Drag',
     Component: PageThree,
   },
   {
