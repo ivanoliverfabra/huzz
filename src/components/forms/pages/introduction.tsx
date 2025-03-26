@@ -9,8 +9,7 @@ export function Introduction() {
 				E-Kitten and join the fun!
 			</p>
 			<p className="text-muted-foreground mt-4">
-				Fill out this application for an opportunity to play Valorant with Lil
-				Gato. Let&apos;s queue up together! 💖
+				Fill out this application for an opportunity to play Valorant with me. Let&apos;s queue up together! 💖
 			</p>
 		</div>
 	);
