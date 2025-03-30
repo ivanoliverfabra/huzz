@@ -20,8 +20,7 @@ export async function authenticateUser(): Promise<string> {
 export async function authenticateAdmin(): Promise<User> {
 	const user = await currentUser();
 	if (!user) throw new Error("UNAUTHENTICATED");
-	const isAdministrator = await isAdmin(user);
-	if (!isAdministrator) throw new Error("NO_PERMISSION");
+	if (!isAdmin(user)) throw new Error("NO_PERMISSION");
 	return user;
 }
 
@@ -49,9 +48,6 @@ export function mapUser(user: User): MappedUser {
 		name: user.fullName || user.username || user.id,
 		image: user.imageUrl,
 		discord: mappedUserDiscord,
-		banned:
-			"banned" in user.publicMetadata
-				? Boolean(user.publicMetadata.banned)
-				: false,
+		banned: user.banned
 	};
 }
